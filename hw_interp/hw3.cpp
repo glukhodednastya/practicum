@@ -1073,9 +1073,8 @@ void Parser::FOR() {
 	}
 	if (c_type == LEX_SEMICOLON)
 		gl();
-    else {
+    else
     	throw "no semicolon";
-    }
 
 	if (c_type != LEX_SEMICOLON) {
 		flag1 = 1;
@@ -1092,9 +1091,8 @@ void Parser::FOR() {
 	else plexit = prog.get_free();
 	if (c_type == LEX_SEMICOLON)
 		gl();
-    else {
+    else
     	throw "no semicolon";
-    }
 
 	if (c_type != LEX_RBRACKETS) {
 		flag2 = 1;
@@ -1747,6 +1745,46 @@ void Executer::execute(Poliz &prog) {
 }
 
 
+
+class Interpretator {
+    Parser pars;
+    Executer E;
+
+public:
+    Interpretator(string program) {};
+    void interpretation();
+};
+void Interpretator::interpretation() {
+    pars.analyze();
+    E.execute(pars.prog);
+}
+
+int main() {
+    try {
+        Interpretator I("file.txt");
+        I.interpretation();
+        return 0;
+    }
+    catch (char c) {
+        cout << "unexpected symbol " << c << endl;
+        return 1;
+    }
+    catch (Lex l) {
+        cout << "unexpected lexeme";
+        cout << l;
+        return 1;
+    }
+    catch (const char *source) {
+        cout << source << endl;
+        return 1;
+    }
+    catch (lexnum const bbb) {
+			cout<<"Ошибка в лексеме: "<< bbb << endl;
+			return 0;
+    }
+}
+
+/*
 int main () {
 	Parser aaa;
 	try {
@@ -1764,6 +1802,6 @@ int main () {
 		cout << str << endl;
 		return 0;
 	}
-
 	return 0;
-}
+
+}*/
